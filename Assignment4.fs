@@ -1,7 +1,7 @@
 // T-501-FMAL, Spring 2021, Assignment 4
 
 (*
-STUDENT NAMES HERE: ...
+STUDENT NAMES HERE: Eva Sol Petursdottir and Halla Margret Jonsdottir
 
 
 *)
@@ -12,12 +12,30 @@ module Assignment4
 
 (*
 ANSWER 1 HERE:
-    (i) g(1, 2) prints ..., h(1, 2) prints ...
+    (i) g(1, 2) prints 2, h(1, 2) prints 2
 
-   (ii) g(1, 0) prints ..., h(1, 0) prints ...
+   (ii) g(1, 0) prints 0, h(1, 0) prints 0
 
-  (iii) g(0, 0) prints ..., h(0, 0) prints ...
-        ...
+  (iii) g(0, 0) prints 0, h(0, 0) prints 50
+        The function f only changes the first argument t* if the value of the address that t* points to is equal to 0.
+
+        g(0,0) will change the first argument 0 (int x) to 50 since g calls twice on function f.
+        But since the function g prints out y in the end, it prints out 0 since y is never changed.
+
+        h(0,0) first initializes a pointer p* that points to the address of x or the first 0.
+        Then h calls the function f with the pointer p and the address of y as arguments (address of x and address of y).
+        In the function f *t is the first 0 (int x) and since *t is equal to 0 then the function changes the value of *t to 50,
+        so now int x has gotten the value 50.
+        After f has changed the value, it returns u, which is the second argument, the address of y (the second 0).
+        
+       The pointer p gets then assigned to the return value from function f, which is the address of y.
+
+       Now we are in the 4th line of the function h and call f again, now with arguments p and &y,
+       but since p just got assigned to the address of y, the arguments are the same address.
+
+       Now we are in function f with the arguments address of y (which is of value 0) in both first and second argumnet.
+       Since *t, the value of pointer p, is equal to 0, then we change the value *t to equal 50. Then we return u, but nothing get assigned to that value.
+       Then at last, we print y, which is new 50 since in the last f function we changed the value of *t, which pointed to y, to 50.
 *)
 
 
