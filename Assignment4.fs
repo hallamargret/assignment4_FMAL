@@ -112,11 +112,10 @@ let make_range =
 // }
 let print_array =
   ("print_array", ["a"; "length"], ["i"], Block [
-    While (Op ("<", Access(AccVar "i"), Access (AccVar "length") )), Block [
-      Print(Access(AccDeref (Op ("+", Access (AccVar "a"), Num 1))))
+    While (Op ("<", Access (AccVar "i"), Access (AccVar "length")), Block [
+      Print(Access (AccDeref (Op ("+", Access (AccVar "a"), Access (AccVar "i")))))
       Assign (AccVar "i", Op ("+", Access (AccVar "i"), Num 1));
-    ]
-
+    ])
   ])
 
 // void memcpy(dest, src, length) {
@@ -129,7 +128,12 @@ let print_array =
 // }
 let memcpy =
   ("memcpy", ["dest"; "src"; "length"], [], Block [
-    // COMPLETE THIS
+    While (Op ("!=", Access (AccVar "length"), Num 0), Block[
+      Assign (AccDeref (Access (AccVar "dest")), Access (AccDeref (Access (AccVar "src"))));
+      Assign (AccVar "dest", Op ("+", Access (AccVar "dest"), Num 1));
+      Assign (AccVar "src", Op ("+", Access (AccVar "src"), Num 1));
+      Assign (AccVar "length", Op ("-", Access (AccVar "length"), Num 1));
+    ])
   ])
 
 // void make_copy(dest_p, src, length) {
@@ -138,7 +142,8 @@ let memcpy =
 // }
 let make_copy =
   ("make_copy", ["dest_p"; "src"; "length"], [], Block [
-    // COMPLETE THIS
+    Alloc (AccDeref (Access (AccVar "dest_p")), Access (AccVar "length"));
+    Call ("memcpy", [Access(AccDeref (Access (AccVar "dest_p"))); Access (AccVar "src"); Access (AccVar "length")]);
   ])
 
 
@@ -148,8 +153,16 @@ let make_copy =
 // (i)
 // void array_to_list(dest_p, a, length) {
 //   var cur;
-//   COMPLETE THIS
+//   *dest_p = 0;
+//    While (length) {
+//      length = length - 1;  
+//      cur = alloc(2);
+//      *cur = *(a + length); 
+//      *(cur + 1) = *dest_p;
+//      *dest_p = cur;
+//     }
 // }
+
 let array_to_list =
   ("array_to_list", ["dest_p"; "a"; "length"], ["cur"], Block [
     Assign (AccDeref (Access (AccVar "dest_p")), Num 0);
@@ -164,10 +177,15 @@ let array_to_list =
 
 // (ii)
 let print_list =
-  ("print_list", ["l"], [], Block [
+  ("print_list", ["l"], ["p"], Block [
     // COMPLETE THIS
     // (You may want to add local variables by changing the empty list
     // above.)
+    Assign (AccVar "p", Access (AccVar "l"));
+    While (Op ("!=", (Access (AccVar "p")), Num 0), Block[
+      Print(Access (AccDeref (Access (AccVar "p"))))
+      Assign (AccVar "p", Access (AccDeref(Op ("+", Access (AccVar "p"), Num 1))));
+    ])
   ])
 
 
@@ -270,6 +288,8 @@ and exec stm (locEnv : locEnv) (funEnv : funEnv) (sto : store) : store =
         setSto sto loc res
     | TestAndSet (p, q) ->
         failwith "not implemented"
+        // let *p equal *q
+        // let *q equal 1
     | Alloc (acc, e) ->
         let loc = access acc locEnv funEnv sto
         let n = eval e locEnv funEnv sto
