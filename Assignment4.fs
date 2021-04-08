@@ -112,7 +112,11 @@ let make_range =
 // }
 let print_array =
   ("print_array", ["a"; "length"], ["i"], Block [
-    // COMPLETE THIS
+    While (Op ("<", Access(AccVar "i"), Access (AccVar "length") )), Block [
+      Print(Access(AccDeref (Op ("+", Access (AccVar "a"), Num 1))))
+      Assign (AccVar "i", Op ("+", Access (AccVar "i"), Num 1));
+    ]
+
   ])
 
 // void memcpy(dest, src, length) {
@@ -305,7 +309,7 @@ let run (Prog topdecs) vs =
     Then after p has been allocated space, q is also allocated space for an array of length 1. 
     Since q is allocated after p, q is straight after p in memory.
     
-    In line 4 in the main() (*(q - 1) = 10;), the address (q-1) (which is the same as p) is assigned to 10.
+    In line 4 in the main(), *(q - 1) = 10;, the address (q-1) (which is the same as p) is assigned to 10.
     So the value of the address p is now set to 10.
 
     Lastly, we print out the value that is stored at location p, which is 10.
@@ -321,8 +325,8 @@ let run (Prog topdecs) vs =
    So the line *(&i + i) = 0; is changing the value of a to 0.
 
    Lastly, a is printed which has now been assigned to the value 0, so 0 is printed.
-
-*)
+  
+  *)
 
 // void main() {
 //   var p, q;
