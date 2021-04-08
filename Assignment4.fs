@@ -296,8 +296,32 @@ let run (Prog topdecs) vs =
 // Problem 5
 
 (* ANSWER 5 HERE
-    (i) This prints 10 because ...
+    (i) This prints 10 because
+    The memory allocation statement a = alloc(e), allocates space for an array of length e, 
+    initialize all of the values in the array to 0, and set a to the address of the first value.
+
+    p and q gets allocated in momeory with the alloc memory statement.
+    So p is allocated space for an array of length 1.
+    Then after p has been allocated space, q is also allocated space for an array of length 1. 
+    Since q is allocated after p, q is straight after p in memory.
+    
+    In line 4 in the main() (*(q - 1) = 10;), the address (q-1) (which is the same as p) is assigned to 10.
+    So the value of the address p is now set to 10.
+
+    Lastly, we print out the value that is stored at location p, which is 10.
+   
+
    (ii) This prints 0 because ...
+   In main(), a is assigned to the value 1234.
+   Then we call the function f, in which we go through a while loop, that loops through memory addresses
+   while the dereference of the address is now equal to 1234. 
+   So when, the dereference of the address is equal to 1234, we have found the momory address that stores a.
+
+   Then, the function f changes the value that is located in the address *(&i + i), which dereference is equal to 1234 or a, to 0.
+   So the line *(&i + i) = 0; is changing the value of a to 0.
+
+   Lastly, a is printed which has now been assigned to the value 0, so 0 is printed.
+
 *)
 
 // void main() {
