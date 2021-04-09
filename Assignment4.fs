@@ -17,9 +17,10 @@ ANSWER 1 HERE:
    (ii) g(1, 0) prints 0, h(1, 0) prints 0
 
   (iii) g(0, 0) prints 0, h(0, 0) prints 50
-        The function f only changes the first argument t* if the value of the address that t* points to is equal to 0.
+        The function f only changes the value in the first argument *t if it is equal to 0.
 
-        g(0,0) will change the first argument 0 (int x) to 50 since g calls twice on function f.
+        g(0,0) will change the first argument 0 (int x) to 50 the first time it calls the function f. 
+        The second time f is call x is 50 so it does not change it.
         But since the function g prints out y in the end, it prints out 0 since y is never changed.
 
         h(0,0) first initializes a pointer p* that points to the address of x or the first 0.
@@ -35,7 +36,7 @@ ANSWER 1 HERE:
 
        Now we are in function f with the arguments address of y (which is of value 0) in both first and second argumnet.
        Since *t, the value of pointer p, is equal to 0, then we change the value *t to equal 50. Then we return u, but nothing get assigned to that value.
-       Then at last, we print y, which is new 50 since in the last f function we changed the value of *t, which pointed to y, to 50.
+       Then at last, we print y, which is now 50 since in the last f function we changed the value of *t, which pointed to y, to 50.
 *)
 
 
@@ -332,10 +333,11 @@ let run (Prog topdecs) vs =
     p and q gets allocated in momeory with the alloc memory statement.
     So p is allocated space for an array of length 1.
     Then after p has been allocated space, q is also allocated space for an array of length 1. 
-    Since q is allocated after p, q is straight after p in memory.
+    Since q is allocated after p, q is straight after p in memory and since the length of the arrays
+    is 1 then p = q - 1 and q = p + 1.
     
     In line 4 in the main(), *(q - 1) = 10;, the address (q-1) (which is the same as p) is assigned to 10.
-    So the value of the address p is now set to 10.
+    So the value stored at the address p is now set to 10.
 
     Lastly, we print out the value that is stored at location p, which is 10.
    
@@ -343,13 +345,13 @@ let run (Prog topdecs) vs =
    (ii) This prints 0 because ...
    In main(), a is assigned to the value 1234.
    Then we call the function f, in which we go through a while loop, that loops through memory addresses
-   while the dereference of the address is now equal to 1234. 
-   So when, the dereference of the address is equal to 1234, we have found the momory address that stores a.
+   while the dereference of the address is not equal to 1234. 
+   So when, the dereference of the address is equal to 1234, we have found the memory address that stores a.
 
    Then, the function f changes the value that is located in the address *(&i + i), which dereference is equal to 1234 or a, to 0.
    So the line *(&i + i) = 0; is changing the value of a to 0.
 
-   Lastly, a is printed which has now been assigned to the value 0, so 0 is printed.
+   Lastly, a is printed which has now has the value 0, so 0 is printed.
   
   *)
 
