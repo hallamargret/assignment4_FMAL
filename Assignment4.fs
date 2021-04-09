@@ -290,9 +290,9 @@ and exec stm (locEnv : locEnv) (funEnv : funEnv) (sto : store) : store =
         //failwith "not implemented"
         // let *p equal *q : p -> value stored in address q
         let locq = (eval q locEnv funEnv sto)
-        let resq = getSto sto locq
+        let valq = getSto sto locq
         let locp = (eval p locEnv funEnv sto)
-        let newSto = setSto sto locp resq
+        let newSto = setSto sto locp valq
         // let *q equal 1
         setSto newSto locq 1
     | Alloc (acc, e) ->
