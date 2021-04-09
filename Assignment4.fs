@@ -129,7 +129,7 @@ let print_array =
 // }
 let memcpy =
   ("memcpy", ["dest"; "src"; "length"], [], Block [
-    While (Op ("!=", Access (AccVar "length"), Num 0), Block[
+    While (Access (AccVar "length"), Block[
       Assign (AccDeref (Access (AccVar "dest")), Access (AccDeref (Access (AccVar "src"))));
       Assign (AccVar "dest", Op ("+", Access (AccVar "dest"), Num 1));
       Assign (AccVar "src", Op ("+", Access (AccVar "src"), Num 1));
