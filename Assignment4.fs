@@ -2,7 +2,7 @@
 
 (*
 STUDENT NAMES HERE: Eva Sol Petursdottir and Halla Margret Jonsdottir
-
+GROUP: 31
 
 *)
 
